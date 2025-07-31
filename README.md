@@ -64,7 +64,7 @@ You can view anime details, filter by genre, favorite your top picks, and enjoy 
 * **Redux Toolkit** for state management
 * **NativeWind (TailwindCSS)** for styling
 * **React Navigation** for navigation and stacks
-* **React Native Reanimated v2** for performant animations
+* **React Native Reanimated** for performant animations
 * **AsyncStorage** for local persistence
 * **Jikan API** for anime data
 * **Jest** and **React Native Testing Library** for testing
@@ -102,17 +102,17 @@ yarn install --force or --legacy-peer-deps
 npx react-native start
 ```
 
-### **4. Run on Android**
-
-```sh
-npx react-native run-android
-```
-
-### **5. Run on iOS**
+### **4. Run on iOS**
 
 ```sh
 npx pod-install ios
 npx react-native run-ios
+```
+
+### **5. Run on Android**
+
+```sh
+npx react-native run-android
 ```
 
 ---
@@ -158,6 +158,48 @@ yarn test
 
 * **Jest** and **React Native Testing Library** are set up.
 * Some components using Reanimated may not be testable due to lack of proper mocks on RN CLI projects.
+
+---
+
+## Thought Process & Architecture Decisions
+### Why React Native CLI (not Expo)?
+* Production-ready: Offers full control over native modules, necessary for advanced animations and custom native integrations.
+* Challenge-compliant: Shows comfort with native setup and readiness for real-world mobile engineering.
+
+### TypeScript Everywhere
+* Used strict TypeScript for all components, API files, and store slices to catch bugs early, enable IDE autocompletion, and simplify maintenance.
+
+### State Management
+* Redux Toolkit: Chosen for scalability, predictable state, and easy integration with AsyncStorage for persistence (favorites, genre filter, paginated list).
+* Why not Context or Zustand? RTK is widely adopted for medium-to-large codebases and better supports advanced logic like async loading and persistence.
+
+### API Integration
+* Axios for fetching from the Jikan API, supporting pagination and genre filtering.
+* Graceful handling of API/network errors and 429 rate limits (clear user messaging, retry option).
+
+### Navigation & Deep Linking
+* React Navigation (Stack & Tab): Robust navigation, deep link support (for share feature), and consistent UI/UX across Android and iOS.
+
+### Animations
+* React Native Reanimated v2: Enables smooth, native-performant animations (favorite heart flyers, scale, fade-ins, parallax image).
+* NativeWind (TailwindCSS for RN): Rapid, maintainable, and responsive styling for a modern look.
+
+### Component Architecture
+* All components (AnimeCard, FavoriteButton, GenreFilter, ShareButton) are decoupled and reusable.
+* Separated API and store logic for easier testing and maintainability.
+
+### Error Handling & UX
+* All API errors are handled gracefully with user-friendly messages and a retry button.
+* Persistent favorites via AsyncStorage.
+* Loading states, empty states, and infinite scroll for best user experience.
+
+### Performance
+* Uses FlatList for efficient large-list rendering.
+* AnimeCard and key subcomponents are memoized (React.memo) to minimize re-renders.
+
+### Testing
+* Jest & React Native Testing Library: Basic unit and integration tests for Redux slices and API logic.
+* Animation components are harder to test due to library limitations (Reanimated v2 is not fully mockable).
 
 ---
 
