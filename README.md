@@ -1,21 +1,59 @@
 # AnimeExplorer
 
-A React Native CLI app for browsing, searching, and favoriting anime, built using the [Jikan API](https://jikan.moe/).
+A React Native CLI app for browsing, shorting, and favoriting anime, built using the [Jikan API](https://jikan.moe/).
 You can view anime details, filter by genre, favorite your top picks, and enjoy delightful UI/UX with smooth animations and modern navigation.
 
 ---
 
-## Features
+## Features (tested all in iOS)
 
-* **Anime List:** Infinite scroll with images, titles, and scores.
-* **Anime Details:** View synopsis, genres, production info, and more.
-* **Favorites:** Mark/unmark favorites and view your saved anime.
-* **Genre Filtering:** Dropdown to filter anime by genre.
-* **Creative Animations:** Animated favoriting with flying hearts, animated list entry, parallax cover image, and more.
-* **Share:** Share anime via public URL or deep link.
-* **Persistent State:** Favorites are saved locally with AsyncStorage.
-* **Error Handling:** Graceful handling of API/network errors, with retry option.
-* **Dark/Light Support:** Modern look with [nativewind (TailwindCSS)](https://github.com/marklawlor/nativewind).
+### Core Requirements
+* Anime List Screen
+  * ✅ Fetch data from Jikan API (/v4/anime)
+  * ✅ Show anime list: image, title, score
+  * ✅ Pagination/infinite scroll
+
+* Anime Detail Screen
+  * ✅ Tap an anime to view detail screen
+  * ✅ Show synopsis, genres, score, and all relevant info
+
+* Favorites Feature
+  * ✅ Favorite/unfavorite anime
+  * ✅ Favorites stored locally (AsyncStorage)
+  * ✅ Favorites persist on reload
+  * ✅ Favorites tab to view saved items
+
+* Filter by Genre
+  * ✅ Genre dropdown/filter
+  * ✅ Uses Jikan API genre filtering (not just client-side)
+
+* Basic Styling and UX
+  * ✅ Responsive layout (flex, dimensions, Tailwind/nativewind)
+  * ✅ Placeholders/loading UI (ActivityIndicator, skeletons)
+  * ✅ Handles API errors (shows messages, retry, graceful fallback)
+
+### Bonus Points / Extras
+* Use TypeScript
+  * ✅ Full TS types, strict mode
+
+* Animations
+  * ✅ Heart/favorite animated with flyers and scaling (Reanimated)
+  * ✅ Animated list appearance (FadeInDown)
+  * ✅ Parallax image on detail page
+
+* State Manager
+  * ✅ Redux Toolkit (RTK) for state and persistence
+
+* Unit/Integration Tests
+  * ✅ Basic Jest tests for slices, API, (limited Reanimated/component tests due to library constraints)
+
+* Deep Linking/Share
+  * ✅ Share functionality (deep link and web URL supported)
+  * 🔲 Deep linking navigation not fully tested/implemented (app opens to correct detail screen if link is handled externally? Could be added.)
+
+* Code-Splitting/Perf
+  * 🔲 No explicit code-splitting (not usually critical in RN apps, but structure is modular)
+  * ✅ Performance: uses PureComponent/memo, FlatList best practices
 
 ---
 
@@ -38,7 +76,7 @@ You can view anime details, filter by genre, favorite your top picks, and enjoy 
 ### **1. Clone the Repo**
 
 ```sh
-git clone https://github.com/your-username/AnimeExplorer.git
+git clone https://github.com/tareq0065/AnimeExplorer.git
 cd AnimeExplorer
 ```
 
@@ -152,6 +190,7 @@ yarn test
 
 ```
 /src
+  AnimeExplorer.tsx
   /components
     AnimeCard.tsx
     FavoriteButton.tsx
@@ -170,6 +209,7 @@ yarn test
     anime.ts
   /utils
     animeApi.ts
+    storage.ts
 /jest.setup.ts
 /App.tsx
 ```
@@ -189,12 +229,6 @@ yarn test
     * Try a release build.
     * Check babel config and metro cache.
     * Sometimes animations are intentionally disabled or slow in JS debug mode.
-
----
-
-## License
-
-MIT
 
 ---
 
